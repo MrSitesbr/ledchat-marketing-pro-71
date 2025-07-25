@@ -29,6 +29,9 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
     email: "",
     password: "",
     confirmPassword: "",
+    whatsapp: "",
+    age: 18,
+    gender: "",
   });
   
   const [adminPassword, setAdminPassword] = useState("");
@@ -65,7 +68,7 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
     const success = await register(registerData);
     if (success) {
       onOpenChange(false);
-      setRegisterForm({ name: "", email: "", password: "", confirmPassword: "" });
+      setRegisterForm({ name: "", email: "", password: "", confirmPassword: "", whatsapp: "", age: 18, gender: "" });
     }
     
     setIsLoading(false);
@@ -173,6 +176,49 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
                   placeholder="seu@email.com"
                   required
                 />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="whatsapp">WhatsApp</Label>
+                <Input
+                  id="whatsapp"
+                  type="tel"
+                  value={registerForm.whatsapp}
+                  onChange={(e) => setRegisterForm(prev => ({ ...prev, whatsapp: e.target.value }))}
+                  placeholder="(11) 99999-9999"
+                  required
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="age">Idade</Label>
+                  <Input
+                    id="age"
+                    type="number"
+                    min="18"
+                    max="120"
+                    value={registerForm.age}
+                    onChange={(e) => setRegisterForm(prev => ({ ...prev, age: parseInt(e.target.value) || 18 }))}
+                    required
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="gender">Sexo</Label>
+                  <select
+                    id="gender"
+                    value={registerForm.gender}
+                    onChange={(e) => setRegisterForm(prev => ({ ...prev, gender: e.target.value }))}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    required
+                  >
+                    <option value="">Selecionar</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                    <option value="outro">Outro</option>
+                  </select>
+                </div>
               </div>
               
               <div className="space-y-2">

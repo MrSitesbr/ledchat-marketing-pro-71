@@ -11,6 +11,9 @@ export interface RegisterData {
   name: string;
   email: string;
   password: string;
+  whatsapp: string;
+  age: number;
+  gender: string;
 }
 
 export interface LoginData {
