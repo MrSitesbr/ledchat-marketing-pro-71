@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { User, UserContextType, LoginData, RegisterData } from "@/types/user";
 import { toast } from "sonner";
+import { sendRegistrationEmail } from "@/lib/email";
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
@@ -157,6 +158,19 @@ export function UserProvider({ children }: UserProviderProps) {
     };
 
     saveRegisteredUser(newRegisteredUser);
+
+    // Send registration email
+    const emailSent = await sendRegistrationEmail({
+      name: data.name,
+      email: data.email,
+      whatsapp: data.whatsapp,
+      age: data.age,
+      gender: data.gender
+    });
+
+    if (!emailSent) {
+      toast.error("Usuário cadastrado, mas houve erro no envio do email de notificação.");
+    }
 
     const user: User = {
       id: newRegisteredUser.id,
